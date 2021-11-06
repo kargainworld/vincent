@@ -15,7 +15,3 @@ Response errors:
 104 - vin code is incorrect
 
 105 - vin info not found
-
-vin.parser@gmail.com
-
-22612261
