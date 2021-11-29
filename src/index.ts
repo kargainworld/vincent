@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import logger from './loaders/logger';
 import mongoDb from './loaders/mongoDb';
 import msSqlDb from './loaders/msSqlDb';
@@ -6,6 +7,10 @@ import VinDecoder from './services/VinDecoder';
 import validateVinRequest from './middlewares/validateVinRequest';
 
 const app = express();
+const corsOptions = {
+  origin: process.env.ALLOWED_ORIGINAL,
+  optionsSuccessStatus: 200,
+};
 const decoder = new VinDecoder({
   useDatabase: true,
   useCache: false,
@@ -15,7 +20,7 @@ const decoder = new VinDecoder({
 
 app.use(express.json());
 
-app.get('/vin/:vin', validateVinRequest, async (req, res) => {
+app.get('/vin/:vin', cors(corsOptions), validateVinRequest, async (req, res) => {
   try {
     const vinData = await decoder.getVinData(req.params.vin);
 
